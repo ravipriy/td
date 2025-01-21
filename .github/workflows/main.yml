@@ -23,11 +23,11 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../install ..
           cmake --build . --target install
-    
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: TDLib
-          path: build/
+          path: install/
