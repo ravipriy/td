@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JAVA_BINDINGS=ON ..
+          cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JAVA_BINDINGS=ON -DCMAKE_INSTALL_PREFIX=./install ..
           cmake --build . --target install
 
       - name: Upload Artifacts
@@ -31,5 +31,8 @@ jobs:
         with:
           name: TDLib-Java-Bindings
           path: |
+            build/install/lib/libtdjson.so
+            build/install/lib/libtdjson_static.a
+            build/install/lib/libtdclient.a
             build/java/tdjni.so
             build/java/td/tdlib.jar
