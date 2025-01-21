@@ -1,4 +1,4 @@
-name: Build TDLib
+name: Build TDLib with Java Bindings
 
 on:
   push:
@@ -17,17 +17,19 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y g++ make cmake git zlib1g-dev libssl-dev gperf
+          sudo apt install -y g++ make cmake git zlib1g-dev libssl-dev openjdk-11-jdk
 
-      - name: Build TDLib
+      - name: Build TDLib with Java Bindings
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install ..
+          cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JAVA_BINDINGS=ON ..
           cmake --build . --target install
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: TDLib
-          path: install/
+          name: TDLib-Java-Bindings
+          path: |
+            build/java/tdjni.so
+            build/java/td/tdlib.jar
