@@ -30,6 +30,11 @@ jobs:
                 -DTD_ENABLE_JAVA_BINDINGS=ON \
                 -DCMAKE_INSTALL_PREFIX=$(pwd)/install ..
           cmake --build . --target install
+          # Ensure `tdjni.so` and `tdlib.jar` are generated
+          if [ ! -f build/java/tdjni.so ] || [ ! -f build/java/td/tdlib.jar ]; then
+            echo "Error: Missing Java binding files (tdjni.so or tdlib.jar)" >&2
+            exit 1
+          fi
 
       # Step 4: Upload Artifacts
       - name: Upload Artifacts
