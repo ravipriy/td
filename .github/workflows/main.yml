@@ -23,7 +23,9 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JAVA_BINDINGS=ON -DCMAKE_INSTALL_PREFIX=./install ..
+          cmake -DCMAKE_BUILD_TYPE=Release \
+                -DTD_ENABLE_JAVA_BINDINGS=ON \
+                -DCMAKE_INSTALL_PREFIX=$(pwd)/install ..
           cmake --build . --target install
 
       - name: Upload Artifacts
