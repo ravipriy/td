@@ -21,25 +21,17 @@ jobs:
           sudo apt update
           sudo apt install -y g++ make cmake git zlib1g-dev libssl-dev openjdk-11-jdk gperf
 
-      # Step 3: Ensure gperf is in PATH
-      - name: Verify gperf Installation
-        run: |
-          echo "Verifying gperf..."
-          gperf --version
-          which gperf
-
-      # Step 4: Build TDLib with Java Bindings
+      # Step 3: Build TDLib with Java Bindings
       - name: Build TDLib with Java Bindings
         run: |
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release \
                 -DTD_ENABLE_JAVA_BINDINGS=ON \
-                -DCMAKE_INSTALL_PREFIX=$(pwd)/install \
-                -DGPERF_EXECUTABLE=$(which gperf) ..
+                -DCMAKE_INSTALL_PREFIX=$(pwd)/install ..
           cmake --build . --target install
 
-      # Step 5: Upload Artifacts
+      # Step 4: Upload Artifacts
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
