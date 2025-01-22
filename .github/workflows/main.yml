@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y g++ make cmake git zlib1g-dev libssl-dev openjdk-11-jdk
+          sudo apt install -y g++ make cmake git zlib1g-dev libssl-dev openjdk-11-jdk gperf
 
       - name: Build TDLib with Java Bindings
         run: |
