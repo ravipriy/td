@@ -20,17 +20,25 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y g++ make cmake git zlib1g-dev libssl-dev openjdk-11-jdk gperf
-          java -version  # Verify Java is installed
+          sudo apt install -y default-jdk default-jre
+          java -version
+          javac -version
 
       # Step 3: Build TDLib with Java Bindings
       - name: Build TDLib with Java Bindings
         run: |
+          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+          export PATH=$JAVA_HOME/bin:$PATH
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release \
                 -DTD_ENABLE_JAVA_BINDINGS=ON \
+                -DJAVA_AWT_LIBRARY=/usr/lib/jvm/java-11-openjdk-amd64/lib/libawt.so \
+                -DJAVA_JVM_LIBRARY=/usr/lib/jvm/java-11-openjdk-amd64/lib/server/libjvm.so \
+                -DJAVA_INCLUDE_PATH=/usr/lib/jvm/java-11-openjdk-amd64/include \
+                -DJAVA_INCLUDE_PATH2=/usr/lib/jvm/java-11-openjdk-amd64/include/linux \
                 -DCMAKE_INSTALL_PREFIX=$(pwd)/install ..
-          cmake --build . --target install
+          cmake --build . --target install -- VERBOSE=1
           echo "Checking for generated Java binding files..."
           ls -R build/java || echo "Java binding directory is missing!"
           if [ ! -f build/java/tdjni.so ] || [ ! -f build/java/td/tdlib.jar ]; then
