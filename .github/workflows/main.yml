@@ -30,8 +30,8 @@ jobs:
                 -DTD_ENABLE_JAVA_BINDINGS=ON \
                 -DCMAKE_INSTALL_PREFIX=$(pwd)/install ..
           cmake --build . --target td_generate_java_api
+          cmake --build . --target tdjni
           cmake --build . --target install
-          cmake --build . --target java
 
       # Step 4: Upload Artifacts
       - name: Upload Artifacts
